@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Parameter Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input, button {
+            padding: 8px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>URL Parameter Extractor</h1>
+    <label for="urlInput">Enter URL:</label>
+    <input type="text" id="urlInput" placeholder="https://example.com/?param=value">
+
+    <label for="paramInput">Enter Parameter Name:</label>
+    <input type="text" id="paramInput" placeholder="param">
+
+    <button onclick="extractParameter()">Get Parameter Value</button>
+
+    <div id="result"></div>
+
+    <script>
+        function getUrlParameterValue(url, parameter) {
+            try {
+                const urlObject = new URL(url);
+                const params = new URLSearchParams(urlObject.search);
+                return params.get(parameter);
+            } catch (error) {
+                console.error('Invalid URL or parameter error:', error);
+                return null;
+            }
+        }
+
+        function extractParameter() {
+            const url = document.getElementById('urlInput').value;
+            const parameter = document.getElementById('paramInput').value;
+            const result = getUrlParameterValue(url, parameter);
+            const resultDiv = document.getElementById('result');
+
+            if (result !== null) {
+                resultDiv.textContent = `Value of "${parameter}": ${result}`;
+            } else {
+                resultDiv.textContent = `Parameter "${parameter}" not found or invalid URL.`;
+            }
+        }
+    </script>
+</body>
+</html>
